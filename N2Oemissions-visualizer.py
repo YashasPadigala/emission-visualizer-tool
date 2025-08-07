@@ -1,0 +1,53 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+print("Enter N₂O emissions (in tons) for each source:")
+
+sources = ['Industrial', 'Agricultural', 'Transportation', 'Waste', 'Other']
+emissions = {}
+
+for source in sources:
+    while True:
+        try:
+            value = float(input(f"{source}: "))
+            emissions[source] = value
+            break
+        except ValueError:
+            print("Please enter a valid number.")
+
+
+print("\nHow would you like to visualize the data?")
+print("1 - Table")
+print("2 - Bar Graph")
+print("3 - Pie Chart")
+
+choice = input("Enter 1, 2, or 3: ")
+
+df = pd.DataFrame({
+    'Source': list(emissions.keys()),
+    'Emissions': list(emissions.values())
+})
+
+if choice == '1':
+    print("\nN₂O Emissions Table:")
+    print(df)
+
+elif choice == '2':
+    plt.figure(figsize=(8, 5))
+    plt.bar(df['Source'], df['Emissions'])
+    plt.title("N₂O Emissions by Source")
+    plt.ylabel("Emissions (tons)")
+    plt.grid(True, axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.show()
+
+elif choice == '3':
+    plt.figure(figsize=(6, 6))
+    plt.pie(df['Emissions'], labels=df['Source'], autopct='%1.1f%%', startangle=90)
+    plt.title("N₂O Emissions Distribution")
+    plt.axis('equal')
+    plt.tight_layout()
+    plt.show()
+
+else:
+    print("Invalid choice. Please enter 1, 2, or 3.")
